@@ -1,10 +1,10 @@
-  // Generated with g9.
 
 package com.eqap.poc.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,134 +12,145 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-@SuppressWarnings("serial")
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "course")
 public class Course implements Serializable {
 
-    /** Primary key. */
-    protected static final String PK = "courseId";
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false, length=19)
-    private long courseId;
-    
-    @Column(length=100)
-    private String name;
-    
-    @Column(precision=15, scale=3)
-    private double fees;
-    
-    @OneToMany(mappedBy="course")
-    private Set<EnquiryCourse> enquirycourse;
-     
-    @ManyToOne
-    @JoinColumn(name="instituteId" , referencedColumnName = "instituteId")
-    private Institute institute;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(name = "courseId")
+	private Long courseId;
 
-    /** Default constructor. */
-    public Course() {
-    }
+	@Column(name = "name")
+	private String name;
 
-	/*public Course(String name, double fees, Institute institute) {
+	// @Max(value=?) @Min(value=?)//if you know range of your decimal fields
+	// consider using these annotations to enforce field validation
+	@Column(name = "fees")
+	private Double fees;
+
+	@JoinColumn(name = "instituteId", referencedColumnName = "instituteId")
+	@ManyToOne
+	private Institute institute;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private List<EnquiryCourse> enquiryCourseList;
+
+	public Course(String name, Double fees, Institute institute) {
 		this.name = name;
 		this.fees = fees;
 		this.institute = institute;
-	}*/
+	}
 
+	public Course() {
+	}
 
-	public long getCourseId() {
-        return courseId;
-    }
+	public Course(Long courseId) {
+		this.courseId = courseId;
+	}
 
-    
-    public void setCourseId(long aCourseId) {
-        courseId = aCourseId;
-    }
+	public Long getCourseId() {
+		return courseId;
+	}
 
-    
-    public String getName() {
-        return name;
-    }
+	public void setCourseId(Long courseId) {
+		this.courseId = courseId;
+	}
 
-    
-    public void setName(String aName) {
-        name = aName;
-    }
+	public String getName() {
+		return name;
+	}
 
-    
-    public double getFees() {
-        return fees;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    
-    public void setFees(double aFees) {
-        fees = aFees;
-    }
+	public Double getFees() {
+		return fees;
+	}
 
-    
-    public Set<EnquiryCourse> getEnquirycourse() {
-        return enquirycourse;
-    }
+	public void setFees(Double fees) {
+		this.fees = fees;
+	}
 
-    
-    public void setEnquirycourse(Set<EnquiryCourse> aEnquirycourse) {
-        enquirycourse = aEnquirycourse;
-    }
+	public Institute getInstitute() {
+		return institute;
+	}
 
-    
-    public Institute getInstitute() {
-        return institute;
-    }
+	public void setInstitute(Institute institute) {
+		this.institute = institute;
+	}
 
-    
-    public void setInstitute(Institute aInstitute) {
-        institute = aInstitute;
-    }
+	@Override
+	public String toString() {
+		return "Course [courseId=" + courseId + ", name=" + name + ", fees=" + fees + ", institute=" + institute
+				+ ", enquiryCourseList=" + enquiryCourseList + "]";
+	}
 
-    
-    private boolean equalKeys(Object other) {
-        if (this==other) {
-            return true;
-        }
-        if (!(other instanceof Course)) {
-            return false;
-        }
-        Course that = (Course) other;
-        if (this.getCourseId() != that.getCourseId()) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
+		result = prime * result + ((enquiryCourseList == null) ? 0 : enquiryCourseList.hashCode());
+		result = prime * result + ((fees == null) ? 0 : fees.hashCode());
+		result = prime * result + ((institute == null) ? 0 : institute.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
 
-    
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof Course)) return false;
-        return this.equalKeys(other) && ((Course)other).equalKeys(this);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		if (courseId == null) {
+			if (other.courseId != null)
+				return false;
+		} else if (!courseId.equals(other.courseId))
+			return false;
+		if (enquiryCourseList == null) {
+			if (other.enquiryCourseList != null)
+				return false;
+		} else if (!enquiryCourseList.equals(other.enquiryCourseList))
+			return false;
+		if (fees == null) {
+			if (other.fees != null)
+				return false;
+		} else if (!fees.equals(other.fees))
+			return false;
+		if (institute == null) {
+			if (other.institute != null)
+				return false;
+		} else if (!institute.equals(other.institute))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
 
-    
-    @Override
-    public int hashCode() {
-        int i;
-        int result = 17;
-        i = (int)(getCourseId() ^ (getCourseId()>>>32));
-        result = 37*result + i;
-        return result;
-    }
+	public List<EnquiryCourse> getEnquiryCourseList() {
+		return enquiryCourseList;
+	}
 
-    
-    @Override
-    public String toString() {
-        StringBuffer sb = new StringBuffer("[Course |");
-        sb.append(" courseId=").append(getCourseId());
-        sb.append("]");
-        return sb.toString();
-    }
+	public void setEnquiryCourseList(List<EnquiryCourse> enquiryCourseList) {
+		this.enquiryCourseList = enquiryCourseList;
+	}
 
 }

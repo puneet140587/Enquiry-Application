@@ -9,11 +9,10 @@ import org.springframework.data.jpa.repository.Query;
 import com.eqap.poc.entity.Course;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
-	
-	@Query( "SELECT c.courseId AS courseId, c.name AS name, c.fees AS fees, c.institute.name AS instituteName FROM Course AS c" )
-	public List<Map<String,Object>> getCourses() ;
-	
-		
-	
+
+	public List<Course> findCourseListByInstitute_instituteId(Long instituteId);
+
+	@Query("SELECT c.courseId AS courseId, c.name AS name, c.fees AS fees, c.institute.name AS instituteName FROM Course AS c")
+	public List<Map<String, Object>> getCourses();
 
 }
