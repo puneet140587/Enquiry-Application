@@ -16,36 +16,35 @@ import com.eqap.poc.repo.InstituteRepository;
 
 @Controller
 public class CourseController {
-	
+
 	@Autowired
 	CourseRepository courseRepository;
-	
+
 	@Autowired
 	InstituteRepository instituteRepository;
-	
+
 	@GetMapping("/courses")
 	public String form(Model m) {
 		m.addAttribute("cmd", new Course());
-		return "/courses"; 
+		return "/courses";
 	}
-	
+
 	@GetMapping("/save-course")
 	public String save(@ModelAttribute Course c) {
 		courseRepository.save(c);
-		return "redirect:/courses"; 
+		return "redirect:/courses";
 	}
-	
+
 	@ModelAttribute("instituteList")
 	public List<Institute> getInstituteList() {
-		//return instituteRepository.findAll();
+		// return instituteRepository.findAll();
 		return instituteRepository.getCustomInstituteList();
 	}
-	
+
 	@ModelAttribute("courseList")
-	public List<Map<String,Object>> getCourseList() {
-		//return courseRepository.findAll();
-		 return courseRepository.getCourses(); 
+	public List<Map<String, Object>> getCourseList() {
+		// return courseRepository.findAll();
+		return courseRepository.getCourses();
 	}
-	
 
 }

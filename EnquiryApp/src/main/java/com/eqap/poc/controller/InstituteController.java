@@ -14,19 +14,19 @@ import com.eqap.poc.service.CommonService;
 
 @Controller
 public class InstituteController {
-	
+
 	@Autowired
 	CommonService commonService;
-	
+
 	@Autowired
 	InstituteRepository instituteRepository;
-	
+
 	@GetMapping("/institute-form")
 	public String form(Model m) {
-		m.addAttribute("cmd", new Institute ());
+		m.addAttribute("cmd", new Institute());
 		return "/institute-form";
 	}
-	
+
 	@GetMapping("/save-institute")
 	public String saveInstitute(@ModelAttribute Institute inst) {
 		inst.getContact().setName(inst.getName());
@@ -34,17 +34,12 @@ public class InstituteController {
 		commonService.saveInstitute(inst);
 		return "redirect:/institute-list";
 	}
- 	
+
 	@GetMapping("/institute-list")
 	public String instituteList(Model m) {
-		//m.addAttribute("instList", instituteRepository.findAll());
+		// m.addAttribute("instList", instituteRepository.findAll());
 		m.addAttribute("instList", instituteRepository.getInstList());
 		return "/institute-list";
 	}
-	
-	
-	
-	
-	
-		
+
 }

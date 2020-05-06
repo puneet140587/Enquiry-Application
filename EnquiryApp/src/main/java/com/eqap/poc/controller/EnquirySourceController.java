@@ -14,37 +14,36 @@ import com.eqap.poc.repo.EnquirySourceRepository;
 
 @Controller
 public class EnquirySourceController {
-	
+
 	@Autowired
-	EnquirySourceRepository enquirySourceRepository ;
-	
-	
+	EnquirySourceRepository enquirySourceRepository;
+
 	@RequestMapping("/sources")
 	public String enquirySources(Model model) {
 		EnquirySource cmd = new EnquirySource();
 		model.addAttribute("cmd", cmd);
-		return "/sources";  
+		return "/sources";
 	}
-	
+
 	@RequestMapping("/save-enquiry-source")
 	public String saveEnquirySources(@ModelAttribute EnquirySource es) {
 		enquirySourceRepository.save(es);
-		return "redirect:/sources";  // sources.html
+		return "redirect:/sources"; // sources.html
 	}
-	
+
 	@RequestMapping("/enquiry-source-delete/{id}")
 	public String deleteEnquirySources(@PathVariable Long id) {
-		enquirySourceRepository.deleteById(id); 
- 		return "redirect:/sources";  
+		enquirySourceRepository.deleteById(id);
+		return "redirect:/sources";
 	}
-	
+
 	@RequestMapping("/enquiry-source-edit/{id}")
 	public String editEnquirySources(@PathVariable Long id, Model model) {
 		EnquirySource cmd = enquirySourceRepository.findById(id).get();
 		model.addAttribute("cmd", cmd);
- 		return "/sources";  
+		return "/sources";
 	}
-	
+
 	@ModelAttribute("enquirySourceList")
 	public List<EnquirySource> getEnquirySourceList() {
 		return enquirySourceRepository.findAll();

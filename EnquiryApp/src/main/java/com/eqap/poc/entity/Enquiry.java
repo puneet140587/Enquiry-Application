@@ -1,12 +1,10 @@
-// Generated with g9.
-
 package com.eqap.poc.entity;
 
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,192 +12,273 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
-@SuppressWarnings("serial")
-@Entity(name="enquiry")
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@Entity
+@Table(name = "enquiry")
 public class Enquiry implements Serializable {
 
-    
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false, length=19)
-    private long enquiryId;
-    private Timestamp doe;
-    private Date nextCallDate;
-    @Column(length=400)
-    private String remark;
-    @Column(precision=15, scale=3)
-    private double committedFees;
-    private Timestamp lastUpdate;
-    @ManyToOne
-    @JoinColumn(name="contactId")
-    private Contact contact;
-    @OneToMany(mappedBy="enquiry")
-    private Set<Followup> followup;
-    @OneToMany(mappedBy="enquiry")
-    private Set<EnquiryCourse> enquirycourse;
-    @ManyToOne
-    @JoinColumn(name="instituteId")
-    private Institute institute;
-    @ManyToOne
-    @JoinColumn(name="enquirySourceId")
-    private EnquirySource enquirysource;
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(name = "enquiryId")
+	private Long enquiryId;
 
-    /** Default constructor. */
-    public Enquiry() {
-        super();
-    }
+	@Column(name = "doe")
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	private Date doe;
+	@Column(name = "nextCallDate")
+	@Temporal(TemporalType.DATE)
+	private Date nextCallDate;
+	@Column(name = "remark")
+	private String remark;
+	// @Max(value=?) @Min(value=?)//if you know range of your decimal fields
+	// consider using these annotations to enforce field validation
+	@Column(name = "committedFees")
+	private Double committedFees;
+	@Column(name = "lastUpdate")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdate;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 
-    
-    public long getEnquiryId() {
-        return enquiryId;
-    }
+	@Transient
+	private List<Followup> followupList;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 
-    
-    public void setEnquiryId(long aEnquiryId) {
-        enquiryId = aEnquiryId;
-    }
+	@Transient
+	private List<EnquiryCourse> enquiryCourseList;
 
-    
-    public Timestamp getDoe() {
-        return doe;
-    }
+	@JoinColumn(name = "contactId", referencedColumnName = "contactId")
+	@ManyToOne
+	private Contact contact;
 
-    
-    public void setDoe(Timestamp aDoe) {
-        doe = aDoe;
-    }
+	@JoinColumn(name = "instituteId", referencedColumnName = "instituteId")
+	@ManyToOne
+	private Institute institute;
+	@JoinColumn(name = "enquirySourceId", referencedColumnName = "enquirySourceId")
+	@ManyToOne
+	private EnquirySource enquirySource;
 
-    
-    public Date getNextCallDate() {
-        return nextCallDate;
-    }
+	public Enquiry() {
+	}
 
-    
-    public void setNextCallDate(Date aNextCallDate) {
-        nextCallDate = aNextCallDate;
-    }
+	public Enquiry(Long enquiryId) {
+		this.enquiryId = enquiryId;
+	}
 
-    
-    public String getRemark() {
-        return remark;
-    }
+	public Enquiry(Long enquiryId, String remark) {
+		this.enquiryId = enquiryId;
+		this.remark = remark;
+	}
 
-    
-    public void setRemark(String aRemark) {
-        remark = aRemark;
-    }
+	public Long getEnquiryId() {
+		return enquiryId;
+	}
 
-    
-    public double getCommittedFees() {
-        return committedFees;
-    }
+	public void setEnquiryId(Long enquiryId) {
+		this.enquiryId = enquiryId;
+	}
 
-    
-    public void setCommittedFees(double aCommittedFees) {
-        committedFees = aCommittedFees;
-    }
+	public Date getDoe() {
+		return doe;
+	}
 
-    
-    public Timestamp getLastUpdate() {
-        return lastUpdate;
-    }
+	public void setDoe(Date doe) {
+		this.doe = doe;
+	}
 
-    
-    public void setLastUpdate(Timestamp aLastUpdate) {
-        lastUpdate = aLastUpdate;
-    }
+	public Date getNextCallDate() {
+		return nextCallDate;
+	}
 
-    
-    public Contact getContact() {
-        return contact;
-    }
+	public void setNextCallDate(Date nextCallDate) {
+		this.nextCallDate = nextCallDate;
+	}
 
-    
-    public void setContact(Contact aContact) {
-        contact = aContact;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    
-    public Set<Followup> getFollowup() {
-        return followup;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    
-    public void setFollowup(Set<Followup> aFollowup) {
-        followup = aFollowup;
-    }
+	public Double getCommittedFees() {
+		return committedFees;
+	}
 
-    
-    public Set<EnquiryCourse> getEnquirycourse() {
-        return enquirycourse;
-    }
+	public void setCommittedFees(Double committedFees) {
+		this.committedFees = committedFees;
+	}
 
-    
-    public void setEnquirycourse(Set<EnquiryCourse> aEnquirycourse) {
-        enquirycourse = aEnquirycourse;
-    }
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
 
-    
-    public Institute getInstitute() {
-        return institute;
-    }
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
 
-    
-    public void setInstitute(Institute aInstitute) {
-        institute = aInstitute;
-    }
+	public Contact getContact() {
+		return contact;
+	}
 
-    
-    public EnquirySource getEnquirysource() {
-        return enquirysource;
-    }
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
 
-    
-    public void setEnquirysource(EnquirySource aEnquirysource) {
-        enquirysource = aEnquirysource;
-    }
+	public Institute getInstitute() {
+		return institute;
+	}
 
-   
-    private boolean equalKeys(Object other) {
-        if (this==other) {
-            return true;
-        }
-        if (!(other instanceof Enquiry)) {
-            return false;
-        }
-        Enquiry that = (Enquiry) other;
-        if (this.getEnquiryId() != that.getEnquiryId()) {
-            return false;
-        }
-        return true;
-    }
+	public void setInstitute(Institute institute) {
+		this.institute = institute;
+	}
 
-   
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof Enquiry)) return false;
-        return this.equalKeys(other) && ((Enquiry)other).equalKeys(this);
-    }
+	public EnquirySource getEnquirySource() {
+		return enquirySource;
+	}
 
-   
-    @Override
-    public int hashCode() {
-        int i;
-        int result = 17;
-        i = (int)(getEnquiryId() ^ (getEnquiryId()>>>32));
-        result = 37*result + i;
-        return result;
-    }
+	public void setEnquirySource(EnquirySource enquirySource) {
+		this.enquirySource = enquirySource;
+	}
 
-    
-    @Override
-    public String toString() {
-        StringBuffer sb = new StringBuffer("[Enquiry |");
-        sb.append(" enquiryId=").append(getEnquiryId());
-        sb.append("]");
-        return sb.toString();
-    }
+//***************************************************************
+	/*
+	 * @Override public int hashCode() { int hash = 0; hash += (enquiryId != null ?
+	 * enquiryId.hashCode() : 0); return hash; }
+	 */
+
+	/*
+	 * @Override public boolean equals(Object object) { // TODO: Warning - this
+	 * method won't work in the case the id fields are not set if (!(object
+	 * instanceof Enquiry)) { return false; } Enquiry other = (Enquiry) object; if
+	 * ((this.enquiryId == null && other.enquiryId != null) || (this.enquiryId !=
+	 * null && !this.enquiryId.equals(other.enquiryId))) { return false; } return
+	 * true; }
+	 */
+
+	/*
+	 * @Override public String toString() { return
+	 * "net.ezeon.poc.domain.Enquiry[ enquiryId=" + enquiryId + " ]"; }
+	 */
+
+	@Override
+	public String toString() {
+		return "Enquiry [enquiryId=" + enquiryId + ", doe=" + doe + ", nextCallDate=" + nextCallDate + ", remark="
+				+ remark + ", committedFees=" + committedFees + ", lastUpdate=" + lastUpdate + ", followupList="
+				+ followupList + ", enquiryCourseList=" + enquiryCourseList + ", contact=" + contact + ", institute="
+				+ institute + ", enquirySource=" + enquirySource + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((committedFees == null) ? 0 : committedFees.hashCode());
+		result = prime * result + ((contact == null) ? 0 : contact.hashCode());
+		result = prime * result + ((doe == null) ? 0 : doe.hashCode());
+		result = prime * result + ((enquiryCourseList == null) ? 0 : enquiryCourseList.hashCode());
+		result = prime * result + ((enquiryId == null) ? 0 : enquiryId.hashCode());
+		result = prime * result + ((enquirySource == null) ? 0 : enquirySource.hashCode());
+		result = prime * result + ((followupList == null) ? 0 : followupList.hashCode());
+		result = prime * result + ((institute == null) ? 0 : institute.hashCode());
+		result = prime * result + ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
+		result = prime * result + ((nextCallDate == null) ? 0 : nextCallDate.hashCode());
+		result = prime * result + ((remark == null) ? 0 : remark.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Enquiry other = (Enquiry) obj;
+		if (committedFees == null) {
+			if (other.committedFees != null)
+				return false;
+		} else if (!committedFees.equals(other.committedFees))
+			return false;
+		if (contact == null) {
+			if (other.contact != null)
+				return false;
+		} else if (!contact.equals(other.contact))
+			return false;
+		if (doe == null) {
+			if (other.doe != null)
+				return false;
+		} else if (!doe.equals(other.doe))
+			return false;
+		if (enquiryCourseList == null) {
+			if (other.enquiryCourseList != null)
+				return false;
+		} else if (!enquiryCourseList.equals(other.enquiryCourseList))
+			return false;
+		if (enquiryId == null) {
+			if (other.enquiryId != null)
+				return false;
+		} else if (!enquiryId.equals(other.enquiryId))
+			return false;
+		if (enquirySource == null) {
+			if (other.enquirySource != null)
+				return false;
+		} else if (!enquirySource.equals(other.enquirySource))
+			return false;
+		if (followupList == null) {
+			if (other.followupList != null)
+				return false;
+		} else if (!followupList.equals(other.followupList))
+			return false;
+		if (institute == null) {
+			if (other.institute != null)
+				return false;
+		} else if (!institute.equals(other.institute))
+			return false;
+		if (lastUpdate == null) {
+			if (other.lastUpdate != null)
+				return false;
+		} else if (!lastUpdate.equals(other.lastUpdate))
+			return false;
+		if (nextCallDate == null) {
+			if (other.nextCallDate != null)
+				return false;
+		} else if (!nextCallDate.equals(other.nextCallDate))
+			return false;
+		if (remark == null) {
+			if (other.remark != null)
+				return false;
+		} else if (!remark.equals(other.remark))
+			return false;
+		return true;
+	}
+
+	public List<Followup> getFollowupList() {
+		return followupList;
+	}
+
+	public void setFollowupList(List<Followup> followupList) {
+		this.followupList = followupList;
+	}
+
+	public List<EnquiryCourse> getEnquiryCourseList() {
+		return enquiryCourseList;
+	}
+
+	public void setEnquiryCourseList(List<EnquiryCourse> enquiryCourseList) {
+		this.enquiryCourseList = enquiryCourseList;
+	}
 
 }

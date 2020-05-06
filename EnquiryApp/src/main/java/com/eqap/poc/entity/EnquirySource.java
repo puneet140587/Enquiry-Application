@@ -1,102 +1,120 @@
-// Generated with g9.
 
 package com.eqap.poc.entity;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@SuppressWarnings("serial")
-@Entity(name="enquirysource")
+@Entity
+@Table(name = "enquirysource")
 public class EnquirySource implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false, length=19)
-    private long enquirySourceId;
-    
-    @Column(length=100)
-    private String name;
-    
-    //@OneToMany(mappedBy="enquirysource")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Transient
-    private List<Enquiry> enquiry;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(name = "enquirySourceId")
+	private Long enquirySourceId;
 
-    public EnquirySource() {
-    }
-    
-    public EnquirySource(String name) {
+	@Column(name = "name")
+	private String name;
+
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private List<Enquiry> enquiryList;
+
+	public EnquirySource() {
+	}
+
+	public EnquirySource(Long enquirySourceId, String name) {
+		this.enquirySourceId = enquirySourceId;
 		this.name = name;
 	}
 
-    public long getEnquirySourceId() {
-        return enquirySourceId;
-    }
+	public EnquirySource(String name) {
+		this.name = name;
+	}
 
-    public void setEnquirySourceId(long aEnquirySourceId) {
-        enquirySourceId = aEnquirySourceId;
-    }
+	public EnquirySource(Long enquirySourceId) {
+		this.enquirySourceId = enquirySourceId;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public Long getEnquirySourceId() {
+		return enquirySourceId;
+	}
 
-    public void setName(String aName) {
-        name = aName;
-    }
+	public void setEnquirySourceId(Long enquirySourceId) {
+		this.enquirySourceId = enquirySourceId;
+	}
 
-    public List<Enquiry> getEnquiry() {
-        return enquiry;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setEnquiry(List<Enquiry> aEnquiry) {
-        enquiry = aEnquiry;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    private boolean equalKeys(Object other) {
-        if (this==other) {
-            return true;
-        }
-        if (!(other instanceof EnquirySource)) {
-            return false;
-        }
-        EnquirySource that = (EnquirySource) other;
-        if (this.getEnquirySourceId() != that.getEnquirySourceId()) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public String toString() {
+		return "EnquirySource [enquirySourceId=" + enquirySourceId + ", name=" + name + ", enquiryList=" + enquiryList
+				+ "]";
+	}
 
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof EnquirySource)) return false;
-        return this.equalKeys(other) && ((EnquirySource)other).equalKeys(this);
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((enquiryList == null) ? 0 : enquiryList.hashCode());
+		result = prime * result + ((enquirySourceId == null) ? 0 : enquirySourceId.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
 
-    @Override
-    public int hashCode() {
-        int i;
-        int result = 17;
-        i = (int)(getEnquirySourceId() ^ (getEnquirySourceId()>>>32));
-        result = 37*result + i;
-        return result;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EnquirySource other = (EnquirySource) obj;
+		if (enquiryList == null) {
+			if (other.enquiryList != null)
+				return false;
+		} else if (!enquiryList.equals(other.enquiryList))
+			return false;
+		if (enquirySourceId == null) {
+			if (other.enquirySourceId != null)
+				return false;
+		} else if (!enquirySourceId.equals(other.enquirySourceId))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        StringBuffer sb = new StringBuffer("[Enquirysource |");
-        sb.append(" enquirySourceId=").append(getEnquirySourceId());
-        sb.append("]");
-        return sb.toString();
-    }
+	public List<Enquiry> getEnquiryList() {
+		return enquiryList;
+	}
 
- 
+	public void setEnquiryList(List<Enquiry> enquiryList) {
+		this.enquiryList = enquiryList;
+	}
+
 }

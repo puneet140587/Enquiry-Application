@@ -1,9 +1,10 @@
-// Generated with g9.
 
 package com.eqap.poc.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,96 +12,125 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-@SuppressWarnings("serial")
-@Entity(name="followup")
+@Entity
+@Table(name = "followup")
 public class Followup implements Serializable {
-    
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false, length=19)
-    private long followupId;
-    private Timestamp doe;
-    @Column(length=200)
-    private String detail;
-    @ManyToOne
-    @JoinColumn(name="enquiryId")
-    private Enquiry enquiry;
+	private static final long serialVersionUID = 1L;
 
-    /** Default constructor. */
-    public Followup() {
-        super();
-    }
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@Column(name = "followupId")
+	private Long followupId;
 
-    public long getFollowupId() {
-        return followupId;
-    }
+	@Column(name = "doe")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date doe;
 
-    public void setFollowupId(long aFollowupId) {
-        followupId = aFollowupId;
-    }
+	@Column(name = "detail")
+	private String detail;
 
-    public Timestamp getDoe() {
-        return doe;
-    }
+	@JoinColumn(name = "enquiryId", referencedColumnName = "enquiryId")
+	@ManyToOne
+	private Enquiry enquiry;
 
-    public void setDoe(Timestamp aDoe) {
-        doe = aDoe;
-    }
+	public Followup(Long followupId, Date doe, String detail) {
+		this.followupId = followupId;
+		this.doe = doe;
+		this.detail = detail;
+	}
 
-    public String getDetail() {
-        return detail;
-    }
+	public Followup() {
+	}
 
-    public void setDetail(String aDetail) {
-        detail = aDetail;
-    }
+	public Followup(Long followupId) {
+		this.followupId = followupId;
+	}
 
-    public Enquiry getEnquiry() {
-        return enquiry;
-    }
+	public Long getFollowupId() {
+		return followupId;
+	}
 
-    public void setEnquiry(Enquiry aEnquiry) {
-        enquiry = aEnquiry;
-    }
+	public void setFollowupId(Long followupId) {
+		this.followupId = followupId;
+	}
 
-    private boolean equalKeys(Object other) {
-        if (this==other) {
-            return true;
-        }
-        if (!(other instanceof Followup)) {
-            return false;
-        }
-        Followup that = (Followup) other;
-        if (this.getFollowupId() != that.getFollowupId()) {
-            return false;
-        }
-        return true;
-    }
+	public Date getDoe() {
+		return doe;
+	}
 
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof Followup)) return false;
-        return this.equalKeys(other) && ((Followup)other).equalKeys(this);
-    }
+	public void setDoe(Date doe) {
+		this.doe = doe;
+	}
 
-    @Override
-    public int hashCode() {
-        int i;
-        int result = 17;
-        i = (int)(getFollowupId() ^ (getFollowupId()>>>32));
-        result = 37*result + i;
-        return result;
-    }
+	public String getDetail() {
+		return detail;
+	}
 
-    
-    @Override
-    public String toString() {
-        StringBuffer sb = new StringBuffer("[Followup |");
-        sb.append(" followupId=").append(getFollowupId());
-        sb.append("]");
-        return sb.toString();
-    }
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	public Enquiry getEnquiry() {
+		return enquiry;
+	}
+
+	public void setEnquiry(Enquiry enquiry) {
+		this.enquiry = enquiry;
+	}
+
+	@Override
+	public String toString() {
+		return "Followup [followupId=" + followupId + ", doe=" + doe + ", detail=" + detail + ", enquiry=" + enquiry
+				+ "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((detail == null) ? 0 : detail.hashCode());
+		result = prime * result + ((doe == null) ? 0 : doe.hashCode());
+		result = prime * result + ((enquiry == null) ? 0 : enquiry.hashCode());
+		result = prime * result + ((followupId == null) ? 0 : followupId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Followup other = (Followup) obj;
+		if (detail == null) {
+			if (other.detail != null)
+				return false;
+		} else if (!detail.equals(other.detail))
+			return false;
+		if (doe == null) {
+			if (other.doe != null)
+				return false;
+		} else if (!doe.equals(other.doe))
+			return false;
+		if (enquiry == null) {
+			if (other.enquiry != null)
+				return false;
+		} else if (!enquiry.equals(other.enquiry))
+			return false;
+		if (followupId == null) {
+			if (other.followupId != null)
+				return false;
+		} else if (!followupId.equals(other.followupId))
+			return false;
+		return true;
+	}
 
 }

@@ -6,7 +6,7 @@
         <meta charset="UTF-8">        
         <link th:href="@{/main.css}" type="text/css" rel="stylesheet" />
         <script th:src="@{/jquery-3.4.1.min.js}"></script>        
-        <!-- <script>
+        <script>
             var courses;
             $(document).ready(function () {
                 $("#id_instId").change(function () {                    
@@ -52,14 +52,13 @@
                     }
                 }
             }
-        </script> -->
+        </script>
     </head>
     <body>
         <div th:insert="menu"></div>
         <div class="main">
             <div th:insert="header"></div>
-            				TODO : ENQUIRY FORM
-      <!--       <form th:action="@{/save-enquiry}" th:object="${cmd}">
+            <form th:action="@{/save-enquiry}" th:object="${cmd}">
                 <table border="1" width="90%" align="center" cellpadding="5">
                     <tr>
                         <td class="fheading" colspan="4">Enquiry Form</td>
@@ -69,7 +68,7 @@
                         <td colspan="3" valign="center">
 
 
-                            <select id="id_instId" th:field="*{institute.instituteId}" >
+                            <select id="id_instId" th:field="*{enquiry.institute.instituteId}" >
                                 <option value=""></option>
                                 <option th:each="i : ${instituteList}" th:value="${i.instituteId}" th:text="${i.name}">
                                 </option>
@@ -134,7 +133,7 @@
                     </tr>
 
                 </table>
-            </form> -->
+            </form>
 
         </div>
     </body>

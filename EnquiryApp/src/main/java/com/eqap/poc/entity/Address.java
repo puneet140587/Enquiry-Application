@@ -1,4 +1,3 @@
-// Generated with g9.
 
 package com.eqap.poc.entity;
 
@@ -10,81 +9,85 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@SuppressWarnings("serial")
-@Entity(name="address" )
+@Entity
+@Table(name = "address")
 public class Address implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-    
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false, length=19)
-    private long addressId;
-    @Column(length=200)
-    private String detail;
-    @Column(length=100)
-    private String city;
-    @Column(length=100)
-    private String country;
-    @Column(length=10)
-    private Integer zip;
-    //@OneToMany(mappedBy="address")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Transient
-    private List<Contact> contact;
-    //@OneToMany(mappedBy="address2")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Transient
-    private List<Contact> contact2;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "addressId")
+	private Long addressId;
 
-    /** Default constructor. */
-    public Address() {
-        super();
-    }
+	@Column(name = "detail")
+	private String detail;
+	@Column(name = "city")
+	private String city;
+	@Column(name = "country")
+	private String country;
+	@Column(name = "zip")
+	private Integer zip;
 
-    public long getAddressId() {
-        return addressId;
-    }
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	@Transient
+	private List<Contact> contactList;
 
-    
-    public void setAddressId(long aAddressId) {
-        addressId = aAddressId;
-    }
+	public Address() {
+	}
 
-    
-    public String getDetail() {
-        return detail;
-    }
+	public Address(Long addressId) {
+		this.addressId = addressId;
+	}
 
-    
-    public void setDetail(String aDetail) {
-        detail = aDetail;
-    }
+	public Address(String detail) {
+		this.detail = detail;
+	}
 
-    
-    public String getCity() {
-        return city;
-    }
+	public Address(String detail, String city, String country, Integer zip) {
+		this.detail = detail;
+		this.city = city;
+		this.country = country;
+		this.zip = zip;
+	}
 
-    
-    public void setCity(String aCity) {
-        city = aCity;
-    }
+	public Long getAddressId() {
+		return addressId;
+	}
 
-    
-    public String getCountry() {
-        return country;
-    }
+	public void setAddressId(Long addressId) {
+		this.addressId = addressId;
+	}
 
-    
-    public void setCountry(String aCountry) {
-        country = aCountry;
-    }
+	public String getDetail() {
+		return detail;
+	}
 
-    public Integer getZip() {
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public Integer getZip() {
 		return zip;
 	}
 
@@ -92,64 +95,73 @@ public class Address implements Serializable {
 		this.zip = zip;
 	}
 
-	public List<Contact> getContact() {
-        return contact;
-    }
+	@Override
+	public String toString() {
+		return "Address [addressId=" + addressId + ", detail=" + detail + ", city=" + city + ", country=" + country
+				+ ", zip=" + zip + ", contactList=" + contactList + "]";
+	}
 
-    
-    public void setContact(List<Contact> aContact) {
-        contact = aContact;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((addressId == null) ? 0 : addressId.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((contactList == null) ? 0 : contactList.hashCode());
+		result = prime * result + ((country == null) ? 0 : country.hashCode());
+		result = prime * result + ((detail == null) ? 0 : detail.hashCode());
+		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
+		return result;
+	}
 
-    
-    public List<Contact> getContact2() {
-        return contact2;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Address other = (Address) obj;
+		if (addressId == null) {
+			if (other.addressId != null)
+				return false;
+		} else if (!addressId.equals(other.addressId))
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (contactList == null) {
+			if (other.contactList != null)
+				return false;
+		} else if (!contactList.equals(other.contactList))
+			return false;
+		if (country == null) {
+			if (other.country != null)
+				return false;
+		} else if (!country.equals(other.country))
+			return false;
+		if (detail == null) {
+			if (other.detail != null)
+				return false;
+		} else if (!detail.equals(other.detail))
+			return false;
+		if (zip == null) {
+			if (other.zip != null)
+				return false;
+		} else if (!zip.equals(other.zip))
+			return false;
+		return true;
+	}
 
-   
-    public void setContact2(List<Contact> aContact2) {
-        contact2 = aContact2;
-    }
+	public List<Contact> getContactList() {
+		return contactList;
+	}
 
-    
-    private boolean equalKeys(Object other) {
-        if (this==other) {
-            return true;
-        }
-        if (!(other instanceof Address)) {
-            return false;
-        }
-        Address that = (Address) other;
-        if (this.getAddressId() != that.getAddressId()) {
-            return false;
-        }
-        return true;
-    }
-
-    
-    @Override
-    public boolean equals(Object other) {
-        if (!(other instanceof Address)) return false;
-        return this.equalKeys(other) && ((Address)other).equalKeys(this);
-    }
-
-    @Override
-    public int hashCode() {
-        int i;
-        int result = 17;
-        i = (int)(getAddressId() ^ (getAddressId()>>>32));
-        result = 37*result + i;
-        return result;
-    }
-
-   
-    @Override
-    public String toString() {
-        StringBuffer sb = new StringBuffer("[Address |");
-        sb.append(" addressId=").append(getAddressId());
-        sb.append("]");
-        return sb.toString();
-    }
-
+	public void setContactList(List<Contact> contactList) {
+		this.contactList = contactList;
+	}
 
 }
